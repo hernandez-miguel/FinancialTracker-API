@@ -1,12 +1,24 @@
 const express = require('express');
-
+const mongoose = require('mongoose');
 const app = express();
 
-const PORT = 3001;
+//using middleware to help app understand json 
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello API');
-})
+const PORT = 3001;
+const uri = 'mongodb+srv://expensetrackerapp:mxli4eTPPnQRNUyo@expense-tracker-app.g1wsfoi.mongodb.net/?retryWrites=true&w=majority'
+
+// async bc we dont know how long it will take to connect
+async function connect() {
+  try {
+    await mongoose.connect(uri);
+    console.log('Sucessfully connected to database')
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+connect();
 
 app.listen(PORT, () => {
   console.log(`Running server on port ${PORT}`)
