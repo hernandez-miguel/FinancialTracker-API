@@ -1,14 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const expenseRouter = require('./routes/expenses.route');
+
 const app = express();
 
-//using middleware to help app understand json 
-app.use(express.json());
-
 const PORT = 3001;
-const uri = 'mongodb+srv://expensetrackerapp:mxli4eTPPnQRNUyo@expense-tracker-app.g1wsfoi.mongodb.net/?retryWrites=true&w=majority'
+const uri = 'mongodb+srv://expensetrackerapp:mxli4eTPPnQRNUyo@expense-tracker-app.g1wsfoi.mongodb.net/Expense-Tracker-API?retryWrites=true&w=majority'
 
-// async bc we dont know how long it will take to connect
 async function connect() {
   try {
     await mongoose.connect(uri);
@@ -17,6 +15,14 @@ async function connect() {
     console.error(error)
   }
 }
+
+app.use(express.json());
+app.use('/api', expenseRouter);
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ name: err.name, msg: err.message });
+});
 
 connect();
 

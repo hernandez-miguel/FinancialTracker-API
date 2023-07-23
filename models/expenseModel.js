@@ -4,7 +4,7 @@ const expenseSchema = mongoose.Schema(
   {
     merchant: {
       type: String,
-      required: [true, 'Please enter merchant name']
+      required: true
     },
     date: {
       type: String,
@@ -12,7 +12,7 @@ const expenseSchema = mongoose.Schema(
     },
     amount: {
       type: Number,
-      required: true,
+      required: true
     },
     category: {
       type: String,
@@ -24,7 +24,7 @@ const expenseSchema = mongoose.Schema(
     }
   }, 
   {
-    timeStamps: true
+    timestamps: true
   }
 )
 
