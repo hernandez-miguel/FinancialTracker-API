@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const expenseRouter = require('./routes/expenses.route');
+const balanceRouter = require('./routes/balances.route');
 
 const app = express();
 
@@ -18,6 +19,7 @@ async function connect() {
 
 app.use(express.json());
 app.use('/api', expenseRouter);
+app.use('/api', balanceRouter)
 
 app.use((err, req, res, next) => {
   console.error(err);
