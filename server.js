@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const expenseRouter = require('./routes/expenses.route');
 const balanceRouter = require('./routes/balances.route');
+const userRouter = require('./routes/users.router')
 
 const app = express();
 
@@ -10,16 +11,22 @@ const uri = 'mongodb+srv://expensetrackerapp:mxli4eTPPnQRNUyo@expense-tracker-ap
 
 async function connect() {
   try {
-    await mongoose.connect(uri);
-    console.log('Sucessfully connected to database')
+    await mongoose.connect(uri)
+    .then(() => {
+        console.log('Sucessfully connected to database')
+        app.listen(PORT, () => {
+          console.log(`Running server on port ${PORT}`)
+        })
+      });
   } catch(error) {
     console.error(error)
   }
 }
 
 app.use(express.json());
-app.use('/api', expenseRouter);
-app.use('/api', balanceRouter)
+app.use('/api/expenses', expenseRouter);
+app.use('/api/balances', balanceRouter);
+app.use('/api/Users', userRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
@@ -27,7 +34,3 @@ app.use((err, req, res, next) => {
 });
 
 connect();
-
-app.listen(PORT, () => {
-  console.log(`Running server on port ${PORT}`)
-})

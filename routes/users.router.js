@@ -1,5 +1,5 @@
 const express = require('express');
-const Balance = require('../models/balanceModel'); 
+const User = require('../models/userModel'); 
 
 const router = express.Router();
 
@@ -9,9 +9,9 @@ router.get('/:id?', async(req, res, next) => {
     let data;
 
     if(id) {
-      data = await Balance.findById(id);
+      data = await User.findById(id);
     } else {
-      data = await Balance.find({});
+      data = await User.find({});
     }
 
     res.status(200).json(data);
@@ -22,7 +22,7 @@ router.get('/:id?', async(req, res, next) => {
 
 router.post('/', async(req, res, next) => {
   try {
-    const data = await Balance.create(req.body);
+    const data = await User.create(req.body);
     res.status(200).json(data);
   } catch(err) {
     next(err, req, res);
@@ -37,8 +37,8 @@ router.put('/:id?', async(req, res, next) => {
       throw Error('Please enter ID');
     }
 
-    const dataToUpdate = await Balance.findByIdAndUpdate(id, req.body);
-    const updatedData = await Balance.findById(id);
+    const dataToUpdate = await User.findByIdAndUpdate(id, req.body);
+    const updatedData = await User.findById(id);
 
     res.status(200).json(updatedData);
   } catch(err) {
@@ -54,7 +54,7 @@ try {
     throw Error('Please enter ID');
   }
 
-  const data = await Balance.findByIdAndDelete(id);
+  const data = await User.findByIdAndDelete(id);
 
   res.status(200).json(data);
 } catch(err) {

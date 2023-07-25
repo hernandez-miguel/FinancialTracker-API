@@ -1,9 +1,9 @@
 const express = require('express');
 const Expense = require('../models/expenseModel'); 
 
-const expenseRouter = express.Router();
+const router = express.Router();
 
-expenseRouter.get('/expenses/:id?', async(req, res, next) => {
+router.get('/:id?', async(req, res, next) => {
   try {
     let {id} = req.params;
     let data;
@@ -20,7 +20,7 @@ expenseRouter.get('/expenses/:id?', async(req, res, next) => {
   }
 })
 
-expenseRouter.post('/expenses', async(req, res, next) => {
+router.post('/', async(req, res, next) => {
   try {
     const data = await Expense.create(req.body);
     res.status(200).json(data);
@@ -29,7 +29,7 @@ expenseRouter.post('/expenses', async(req, res, next) => {
   }
 })
 
-expenseRouter.put('/expenses/:id?', async(req, res, next) => {
+router.put('/:id?', async(req, res, next) => {
   try {
     const {id} = req.params;
 
@@ -46,7 +46,7 @@ expenseRouter.put('/expenses/:id?', async(req, res, next) => {
   }
 })
 
-expenseRouter.delete('/expenses/:id?', async(req, res, next) => {
+router.delete('/:id?', async(req, res, next) => {
 try {
   const {id} = req.params;
   
@@ -62,4 +62,4 @@ try {
 }
 })
 
-module.exports = expenseRouter;
+module.exports = router;
