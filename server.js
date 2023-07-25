@@ -1,17 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const config = require('./config/index');
+
 const expenseRouter = require('./routes/expenses.route');
 const balanceRouter = require('./routes/balances.route');
-const userRouter = require('./routes/users.router')
+const userRouter = require('./routes/users.route')
 
 const app = express();
 
-const PORT = 3001;
-const uri = 'mongodb+srv://expensetrackerapp:mxli4eTPPnQRNUyo@expense-tracker-app.g1wsfoi.mongodb.net/Expense-Tracker-API?retryWrites=true&w=majority'
+const PORT = config.port || 3001;
+const MONGO_URI = config.mongoURI; 
 
 async function connect() {
   try {
-    await mongoose.connect(uri)
+    await mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('Sucessfully connected to database')
         app.listen(PORT, () => {
@@ -26,7 +28,7 @@ async function connect() {
 app.use(express.json());
 app.use('/api/expenses', expenseRouter);
 app.use('/api/balances', balanceRouter);
-app.use('/api/Users', userRouter);
+app.use('/api/users', userRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
