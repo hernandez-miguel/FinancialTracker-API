@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 if (!process.env.MONGO_URI || !process.env.PORT) {
-  throw Error("Couldn't find .env!");
+  throw new Error("Couldn't find environment variables!");
 }
 
 module.exports = {
