@@ -20,14 +20,14 @@ const getExpense = async (req, res, next) => {
 const UpdateExpense = async (req, res, next) => {
   try {
     const {id} = req.params;
+    const data = await Expense.findByIdAndUpdate(id, req.body);
 
-    if (!id) {
-      throw Error('Please enter ID');
+    if (!data) {
+      res.status(404);
+      throw new Error(`Cannot find expense with ID ${id}`);
     }
 
-    const dataToUpdate = await Expense.findByIdAndUpdate(id, req.body);
     const updatedData = await Expense.findById(id);
-
     res.status(200).json(updatedData);
   } catch(err) {
     next(err, req, res)
@@ -46,12 +46,12 @@ const createExpense = async (req, res, next) => {
 const deleteExpense = async (req, res, next) => {
   try {
     const {id} = req.params;
-    
-    if (!id) {
-      throw Error('Please enter ID');
-    }
-  
     const data = await Expense.findByIdAndDelete(id);
+    
+    if (!data) {
+      res.status(404);
+      throw new Error(`Cannot find expense with ID ${id}`);
+    }
   
     res.status(200).json(data);
   } catch(err) {

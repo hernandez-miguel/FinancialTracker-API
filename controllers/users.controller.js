@@ -29,14 +29,14 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const {id} = req.params;
+    const data = await User.findByIdAndUpdate(id, req.body);
 
-    if (!id) {
-      throw Error('Please enter ID');
+    if (!data) {
+      res.status(404);
+      throw new Error(`Cannot find user with ID ${id}`);
     }
 
-    const dataToUpdate = await User.findByIdAndUpdate(id, req.body);
     const updatedData = await User.findById(id);
-
     res.status(200).json(updatedData);
   } catch(err) {
     next(err, req, res)
@@ -46,12 +46,12 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   try {
     const {id} = req.params;
-    
-    if (!id) {
-      throw Error('Please enter ID');
-    }
-  
     const data = await User.findByIdAndDelete(id);
+    
+    if (!data) {
+      res.status(404);
+      throw new Error(`Cannot find user with ID ${id}`);
+    }
   
     res.status(200).json(data);
   } catch(err) {

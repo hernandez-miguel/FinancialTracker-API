@@ -6,6 +6,8 @@ const expenseRouter = require('./routes/expenses.route');
 const balanceRouter = require('./routes/balances.route');
 const userRouter = require('./routes/users.route')
 
+const errorMiddleware = require('./middleware/error.middleware')
+
 const app = express();
 
 const PORT = config.port || 3001;
@@ -25,14 +27,12 @@ async function connect() {
   }
 }
 
+connect();
+
 app.use(express.json());
+
 app.use('/api/expenses', expenseRouter);
 app.use('/api/balances', balanceRouter);
 app.use('/api/users', userRouter);
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ name: err.name, msg: err.message });
-});
-
-connect();
+app.use(errorMiddleware);
