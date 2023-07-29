@@ -27,11 +27,9 @@ async function connect() {
 }
 
 app.use(express.json());
-
 app.use('/api/expenses', expenseRouter);
 app.use('/api/balances', balanceRouter);
 app.use('/api/users', userRouter);
-
 app.use(errorMiddleware);
 
 connect();
