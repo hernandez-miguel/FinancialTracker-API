@@ -8,7 +8,7 @@ const handleNewUser = async (req, res, next) => {
     
     if(!email || !password) {
       res.status(400);
-      throw new Error('Email and password are required.')
+      throw new Error('Email and password are required.');
     }
     
     const duplicate = await User.exists({email: email});

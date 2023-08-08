@@ -8,6 +8,7 @@ const expenseRouter = require('./routes/expenses.route');
 const balanceRouter = require('./routes/balances.route');
 const userRouter = require('./routes/users.route');
 const registerRouter = require('./routes/register.route');
+const authRouter = require('./routes/auth.route');
 
 const errorMiddleware = require('./middleware/error.middleware');
 
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(cors(corsOptions))
 
 app.use('/register', registerRouter);
+app.use('/auth', authRouter);
 app.use('/api/expenses', expenseRouter);
 app.use('/api/balances', balanceRouter);
 app.use('/api/users', userRouter);
