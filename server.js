@@ -11,6 +11,7 @@ const registerRouter = require('./routes/register.route');
 const authRouter = require('./routes/auth.route');
 
 const errorMiddleware = require('./middleware/error.middleware');
+const verifyJWT = require('./middleware/verifyJWT.middleware');
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.use(cors(corsOptions))
 
 app.use('/register', registerRouter);
 app.use('/auth', authRouter);
+
+app.use(verifyJWT);
 app.use('/api/expenses', expenseRouter);
 app.use('/api/balances', balanceRouter);
 app.use('/api/users', userRouter);
