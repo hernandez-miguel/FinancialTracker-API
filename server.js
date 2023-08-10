@@ -9,9 +9,12 @@ const balanceRouter = require('./routes/balances.route');
 const userRouter = require('./routes/users.route');
 const registerRouter = require('./routes/register.route');
 const authRouter = require('./routes/auth.route');
+const refreshRouter = require('./routes/refresh.route');
+const logoutRouter = require('./routes/logout.router');
 
 const errorMiddleware = require('./middleware/error.middleware');
 const verifyJWT = require('./middleware/verifyJWT.middleware');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -33,9 +36,12 @@ async function connect() {
 
 app.use(express.json());
 app.use(cors(corsOptions))
+app.use(cookieParser());
 
 app.use('/register', registerRouter);
 app.use('/auth', authRouter);
+app.use('/refresh', refreshRouter);
+app.use('/logout', logoutRouter);
 
 app.use(verifyJWT);
 app.use('/api/expenses', expenseRouter);
