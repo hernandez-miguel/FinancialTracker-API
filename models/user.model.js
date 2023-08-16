@@ -10,6 +10,13 @@ const userSchema = mongoose.Schema (
       type: String,
       required: true,
     },
+    roles: {
+      User: {
+        type: Number,
+        default: 2001
+      },
+      Admin: Number
+    },
     email: {
       type: String,
       required: true

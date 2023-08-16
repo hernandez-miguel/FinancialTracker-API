@@ -5,9 +5,9 @@ ACCESS_TOKEN_SECRET = config.accessTokenSecret;
 
 const verifyJWT = (req, res, next) => {
   try {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization || req.header.Authorization;
 
-    if (!authHeader) {
+    if (!authHeader?.startsWith('Bearer')) {
       res.status(401);
       throw new Error('Unauthorized');
     }
@@ -22,7 +22,8 @@ const verifyJWT = (req, res, next) => {
           res.status(403);
           throw new Error('Invalid Token')
         }
-        req.email = decoded.email;
+        req.email = decoded.UserInfo.email;
+        req.roles = decoded.UserInfo.roles;
         next();
       }
     );
