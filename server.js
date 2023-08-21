@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('./config/index');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions')
+const corsOptions = require('./config/corsOptions');
 
 const expenseRouter = require('./routes/expenses.route');
 const balanceRouter = require('./routes/balances.route');
