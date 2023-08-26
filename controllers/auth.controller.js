@@ -58,7 +58,7 @@ const handleLogin = async (req, res, next) => {
         }
       );
 
-      res.status(200).json({ accessToken });
+      res.status(200).json({ accessToken, roles : roles });
     } else {
       res.status(401);
       throw new Error('Password does not match');

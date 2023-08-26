@@ -32,9 +32,7 @@ const handleNewUser = async (req, res, next) => {
       'password': hashedPassword
     });
 
-    // trying to create a token when registering
     const foundUser = await User.findOne({'email': email}).exec();
-
     const roles = Object.values(foundUser.roles);
 
     const accessToken = jwt.sign(
@@ -68,7 +66,7 @@ const handleNewUser = async (req, res, next) => {
       }
     );
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken, roles : foundUser.roles });
   } catch(err) {
     next(err, req, res);
   }
