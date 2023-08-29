@@ -17,6 +17,10 @@ const balanceSchema = mongoose.Schema(
     note: {
       type: String,
       required: false
+    }, 
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
     }
   }, 
   {

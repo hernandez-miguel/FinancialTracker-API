@@ -1,16 +1,19 @@
 const Balance = require('../models/balance.model'); 
+const User = require('../models/user.model');
 
-const getBalance = async (req, res, next) => {
+const getAllBalances = async (req, res, next) => {
+  try {
+    const data = await Balance.find({});
+    res.status(200).json(data);
+  } catch(err) {
+    next(err, req, res);
+  }
+}
+
+const getUserBalance = async (req, res, next) => {
   try {
     let {id} = req.params;
-    let data;
-
-    if(id) {
-      data = await Balance.findById(id);
-    } else {
-      data = await Balance.find({});
-    }
-
+    const data = await Balance.find({ user: id }).exec();
     res.status(200).json(data);
   } catch(err) {
     next(err, req, res);
@@ -19,7 +22,31 @@ const getBalance = async (req, res, next) => {
 
 const createBalance = async (req, res, next) => {
   try {
-    const data = await Balance.create(req.body);
+    const {id} = req.params;
+    const { account, amount } = req.body;
+    const { category, note } = req.body;
+
+    const currUser = await User.findOne({ '_id': id }).exec();
+
+    if (!currUser) {
+      res.status(401);
+      throw new Error('Email does not exist');
+    } 
+
+    let data = new Balance({
+        account: account,
+        amount: amount,
+        category: category,
+        note: note,
+        user: currUser._id
+    })
+
+    await data.save();
+    
+    currUser.balances.push(data);
+
+    await currUser.save();
+    
     res.status(200).json(data);
   } catch(err) {
     next(err, req, res);
@@ -60,7 +87,8 @@ const deleteBalance = async (req, res, next) => {
 }
 
 module.exports = {
-  getBalance,
+  getAllBalances,
+  getUserBalance,
   createBalance,
   updateBalance,
   deleteBalance

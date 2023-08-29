@@ -26,6 +26,8 @@ const handleLogin = async (req, res, next) => {
 
     if (match) {
       const roles = Object.values(foundUser.roles);
+      const userId = foundUser._id;
+      const userBalance = foundUser.balances;
 
       const accessToken = jwt.sign(
         { 
@@ -58,7 +60,7 @@ const handleLogin = async (req, res, next) => {
         }
       );
 
-      res.status(200).json({ accessToken, roles });
+      res.status(200).json({ accessToken, roles, userId, userBalance});
     } else {
       res.status(401);
       throw new Error('Password does not match');

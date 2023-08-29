@@ -1,19 +1,15 @@
 const express = require('express');
-const {
-  getExpense, 
-  UpdateExpense, 
-  createExpense, 
-  deleteExpense,
-} = require('../controllers/expenses.controller')
+const ROLES_LIST = require('../config/rolesList');
+const verifyRoles = require('../middleware/verifyRoles.middleware');
+const { getAllExpenses, getUserExpense } = require('../controllers/expenses.controller')
+const { updateExpense, createExpense, deleteExpense } = require('../controllers/expenses.controller')
 
 const router = express.Router();
 
-router.get('/:id?', getExpense)
-
-router.post('/', createExpense)
-
-router.put('/:id?', UpdateExpense)
-
-router.delete('/:id?', deleteExpense)
+router.get('/', verifyRoles(ROLES_LIST.Admin), getAllExpenses)
+router.get('/:id', verifyRoles(ROLES_LIST.User), getUserExpense)
+router.post('/:id', verifyRoles(ROLES_LIST.User), createExpense);
+router.put('/:id', verifyRoles(ROLES_LIST.User), updateExpense);
+router.delete('/:id', verifyRoles(ROLES_LIST.User), deleteExpense);
 
 module.exports = router;

@@ -25,6 +25,18 @@ const userSchema = mongoose.Schema (
       type: String,
       required: true
     },
+    balances: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Balances'
+      }
+    ],
+    expenses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Expenses'
+      }
+    ],
     refreshToken: String,
   }, {
     timestamps: true,

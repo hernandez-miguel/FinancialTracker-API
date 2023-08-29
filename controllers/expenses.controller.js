@@ -1,23 +1,60 @@
 const Expense = require('../models/expense.model');
+const User = require('../models/user.model');
 
-const getExpense = async (req, res, next) => {
+const getAllExpenses = async (req, res, next) => {
   try {
-    let {id} = req.params;
-    let data;
-
-    if(id) {
-      data = await Expense.findById(id);
-    } else {
-      data = await Expense.find({});
-    }
-
+    const data = await Expense.find({});
     res.status(200).json(data);
   } catch(err) {
     next(err, req, res);
   }
 }
 
-const UpdateExpense = async (req, res, next) => {
+const getUserExpense = async (req, res, next) => {
+  try {
+    let {id} = req.params;
+    const data = await Expense.find({ user: id }).exec();
+    res.status(200).json(data);
+  } catch(err) {
+    next(err, req, res);
+  }
+}
+
+const createExpense = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    const { merchant, date, amount } = req.body;
+    const { category, note } = req.body;
+
+    const currUser = await User.findOne({ '_id': id }).exec();
+
+    if (!currUser) {
+      res.status(401);
+      throw new Error('Email does not exist');
+    } 
+
+    let data = new Expense({
+        merchant: merchant,
+        date: date,
+        amount: amount,
+        category: category,
+        note: note,
+        user: currUser._id
+    })
+
+    await data.save();
+    
+    currUser.expenses.push(data);
+
+    await currUser.save();
+    
+    res.status(200).json(data);
+  } catch(err) {
+    next(err, req, res);
+  }
+}
+
+const updateExpense = async (req, res, next) => {
   try {
     const {id} = req.params;
     const data = await Expense.findByIdAndUpdate(id, req.body);
@@ -31,15 +68,6 @@ const UpdateExpense = async (req, res, next) => {
     res.status(200).json(updatedData);
   } catch(err) {
     next(err, req, res)
-  }
-}
-
-const createExpense = async (req, res, next) => {
-  try {
-    const data = await Expense.create(req.body);
-    res.status(200).json(data);
-  } catch(err) {
-    next(err, req, res);
   }
 }
 
@@ -60,8 +88,9 @@ const deleteExpense = async (req, res, next) => {
 }
 
 module.exports = {
-  getExpense,
-  UpdateExpense,
+  getAllExpenses,
+  getUserExpense,
+  updateExpense,
   createExpense, 
   deleteExpense
 }
