@@ -34,6 +34,7 @@ const handleNewUser = async (req, res, next) => {
 
     const foundUser = await User.findOne({'email': email}).exec();
     const roles = Object.values(foundUser.roles);
+    const userId = foundUser._id;
 
     const accessToken = jwt.sign(
       { 
@@ -66,7 +67,7 @@ const handleNewUser = async (req, res, next) => {
       }
     );
 
-    res.status(200).json({ accessToken, roles : foundUser.roles });
+    res.status(200).json({ accessToken, roles, userId });
   } catch(err) {
     next(err, req, res);
   }
