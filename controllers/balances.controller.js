@@ -23,18 +23,19 @@ const getUserBalance = async (req, res, next) => {
 const createBalance = async (req, res, next) => {
   try {
     const {id} = req.params;
-    const { account, amount } = req.body;
+    const { account, amount, year } = req.body;
     const { category, note } = req.body;
 
     const currUser = await User.findOne({ '_id': id }).exec();
 
     if (!currUser) {
       res.status(401);
-      throw new Error('Email does not exist');
+      throw new Error('User not found');
     } 
 
     let data = new Balance({
         account: account,
+        year: year,
         amount: amount,
         category: category,
         note: note,
