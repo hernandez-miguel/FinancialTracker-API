@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
-const balanceSchema = mongoose.Schema(
+const accountSchema = mongoose.Schema(
   {
     account: {
       type: String,
-      required: true
-    },
-    year: {
-      type: Number,
       required: true
     },
     amount: {
@@ -18,10 +14,14 @@ const balanceSchema = mongoose.Schema(
       type: String,
       required: true
     },
-    note: {
-      type: String,
+    netChg: {
+      type: Number,
       required: false
-    }, 
+    },
+    percentChg: {
+      type: Number,
+      required: false
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -32,6 +32,6 @@ const balanceSchema = mongoose.Schema(
   }
 )
 
-const Balances = mongoose.model('Balances', balanceSchema);
+const Account = mongoose.model('Account', accountSchema);
 
-module.exports = Balances;
+module.exports = Account;

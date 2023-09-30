@@ -37,6 +37,12 @@ const userSchema = mongoose.Schema (
         ref: 'Expenses'
       }
     ],
+    accounts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Accounts'
+      }
+    ],
     refreshToken: String,
   }, {
     timestamps: true,
