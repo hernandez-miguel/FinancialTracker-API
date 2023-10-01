@@ -43,6 +43,12 @@ const userSchema = mongoose.Schema (
         ref: 'Accounts'
       }
     ],
+    balances: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Balances'
+      }
+    ],
     refreshToken: String,
   }, {
     timestamps: true,

@@ -10,7 +10,7 @@ const getAllAccounts = async (req, res, next) => {
   }
 }
 
-const getAccount = async (req, res, next) => {
+const getAccountsByUser = async (req, res, next) => {
   try {
     let {id} = req.params;
     const data = await Account.find({ user: id }).exec();
@@ -86,7 +86,7 @@ const deleteAccount = async (req, res, next) => {
 
 module.exports = {
   getAllAccounts,
-  getAccount,
+  getAccountsByUser,
   createAccount,
   updateAccount,
   deleteAccount

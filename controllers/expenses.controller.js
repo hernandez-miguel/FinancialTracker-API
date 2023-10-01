@@ -10,7 +10,7 @@ const getAllExpenses = async (req, res, next) => {
   }
 }
 
-const getExpense = async (req, res, next) => {
+const getExpensesByUser = async (req, res, next) => {
   try {
     let {id} = req.params;
     const data = await Expense.find({ user: id }).exec();
@@ -89,7 +89,7 @@ const deleteExpense = async (req, res, next) => {
 
 module.exports = {
   getAllExpenses,
-  getExpense,
+  getExpensesByUser,
   updateExpense,
   createExpense, 
   deleteExpense

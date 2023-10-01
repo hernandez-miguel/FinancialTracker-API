@@ -6,6 +6,7 @@ const corsOptions = require('./config/corsOptions');
 
 const expenseRouter = require('./routes/expenses.route');
 const accountRouter = require('./routes/accounts.route');
+const balanceRouter = require('./routes/balances.route'); 
 const userRouter = require('./routes/users.route');
 const registerRouter = require('./routes/register.route');
 const authRouter = require('./routes/auth.route');
@@ -46,6 +47,7 @@ app.use('/logout', logoutRouter);
 app.use(verifyJWT);
 app.use('/api/expenses', expenseRouter);
 app.use('/api/accounts', accountRouter);
+app.use('/api/balances', balanceRouter);
 app.use('/api/users', userRouter);
 app.use(errorMiddleware);
 
