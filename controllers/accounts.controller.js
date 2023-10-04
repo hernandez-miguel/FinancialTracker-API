@@ -23,7 +23,7 @@ const getAccountsByUser = async (req, res, next) => {
 const createAccount = async (req, res, next) => {
   try {
     const {id} = req.params;
-    const { account, amount, category } = req.body;
+    const { account, balance, category } = req.body;
 
     const currUser = await User.findOne({ '_id': id }).exec();
 
@@ -34,7 +34,7 @@ const createAccount = async (req, res, next) => {
 
     let data = new Account({
         account: account,
-        amount: amount,
+        balance: balance,
         category: category,
         user: currUser._id
     })

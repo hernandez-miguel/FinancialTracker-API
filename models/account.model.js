@@ -6,13 +6,17 @@ const accountSchema = mongoose.Schema(
       type: String,
       required: true
     },
-    amount: {
+    balance: {
       type: Number,
       required: true
     },
     category: {
       type: String,
       required: true
+    },
+    prevBalance: {
+      type: Number,
+      required: false
     },
     netChg: {
       type: Number,
