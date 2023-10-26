@@ -36,7 +36,7 @@ const handleLogin = async (req, res, next) => {
           }
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: '30s' }
+        { expiresIn: '15m' }
       );
 
       const refreshToken = jwt.sign(
