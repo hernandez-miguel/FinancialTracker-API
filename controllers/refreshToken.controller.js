@@ -10,8 +10,9 @@ const handleRefreshToken = async (req, res, next) => {
     const cookies = req.cookies;
     
     if(!cookies?.jwt) {
+      console.error('Unauthorized: JWT not found in cookies', cookies);
       res.status(401);
-      throw new Error('Unauthorized', cookies);
+      throw new Error('Unauthorized');
     }
     
     const refreshToken = cookies.jwt;
