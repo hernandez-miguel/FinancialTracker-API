@@ -11,7 +11,7 @@ const handleRefreshToken = async (req, res, next) => {
     
     if(!cookies?.jwt) {
       res.status(401);
-      throw new Error('Unauthorized')
+      throw new Error('Unauthorized', cookies);
     }
     
     const refreshToken = cookies.jwt;
