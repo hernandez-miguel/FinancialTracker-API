@@ -54,7 +54,7 @@ const handleLogin = async (req, res, next) => {
         {
           httpOnly: true,
           sameSite: 'None',
-          secure: false,
+          secure: true,
           maxAge: 24 * 60 * 60 * 1000 
         }
       );
